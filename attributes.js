@@ -159,7 +159,7 @@
             cellTackling.textContent = player.tackling;
             cellTechnique.textContent = player.technique;
             cellAggression.textContent = player.aggression;
-            cellAnticipation.textContent = player.anticipation;
+            cellAnticipation.textContent = player.antecipation;
             cellBravery.textContent = player.bravery;
             cellComposure.textContent = player.composure;
             cellConcentration.textContent = player.concentration;
