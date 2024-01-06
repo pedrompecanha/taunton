@@ -56,6 +56,22 @@
             }
           }
 
+
+          function colorCells(cells) {
+            cells.forEach(cell => {
+                const value = parseInt(cell.textContent);
+                if (value >= 0 && value <= 5) {
+                    cell.classList.add('low-range');
+                } else if (value > 5 && value <= 15) {
+                    cell.classList.add('medium-range');
+                } else {
+                    cell.classList.add('high-range');
+                }
+                cell.style.fontWeight = 'bold';
+            });
+        }
+        
+
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
       
@@ -94,7 +110,8 @@
                 }
                 // Push the object into the array
             });
-    
+            const playerNames = playerData.map(player => player.name);
+            console.log(playerNames)
             const tableBody = document.querySelector('#playersTable tbody');
 
         console.log(playerData.length)
@@ -180,6 +197,45 @@
             cellPace.textContent = player.pace;
             cellStamina.textContent = player.stamina;
             cellStrength.textContent = player.strength;
+
+            colorCells([
+                cellCorners,
+                cellCrossing,
+                cellDribbling,
+                cellFinishing,
+                cellFirstTouch,
+                cellFreeKickTaking,
+                cellHeading,
+                cellLongShots,
+                cellLongThrows,
+                cellMarking,
+                cellPassing,
+                cellPenaltyTaking,
+                cellTackling,
+                cellTechnique,
+                cellAggression,
+                cellAnticipation,
+                cellBravery,
+                cellComposure,
+                cellConcentration,
+                cellDecisions,
+                cellDetermination,
+                cellFlair,
+                cellLeadership,
+                cellOffTheBall,
+                cellPositioning,
+                cellTeamwork,
+                cellVision,
+                cellWorkrate,
+                cellAcceleration,
+                cellAgility,
+                cellBalance,
+                cellJumpingReach,
+                cellNaturalFitness,
+                cellPace,
+                cellStamina,
+                cellStrength])
+            
         });
 
         }).catch((error) => {
