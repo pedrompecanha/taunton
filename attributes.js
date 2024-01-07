@@ -62,10 +62,12 @@
                 const value = parseInt(cell.textContent);
                 if (value >= 0 && value <= 5) {
                     cell.classList.add('low-range');
-                } else if (value > 5 && value <= 15) {
+                } else if (value <= 10) {
                     cell.classList.add('medium-range');
-                } else {
+                } else if (value <= 15){
                     cell.classList.add('high-range');
+                } else {
+                    cell.classList.add('top-range');
                 }
                 cell.style.fontWeight = 'bold';
             });

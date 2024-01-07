@@ -1,0 +1,46 @@
+
+body {
+    background-color: #2e2c2c; /* Set the background color for the entire page */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    padding-left: 1%;
+    font-family: 'Figtree';
+    font-size: 22px;
+    color: white;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    background-color: #2e2c2c;
+}
+
+th {
+    background-color: #2e2c2c;
+}
+
+h1 {
+    font-family: "Figtree";
+    color: white;
+    padding-left: 1%;
+}
+
+.low-range {
+    color: rgba(255,255,255,.6);
+}
+
+.medium-range {
+    color: white;
+}
+
+.high-range {
+    color: #e8d83c;
+}
+
+.top-range {
+    color: #0bfb6b;
+}
