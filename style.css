@@ -44,3 +44,24 @@ h1 {
 .top-range {
     color: #0bfb6b;
 }
+
+#myDropdown {
+    font-family: 'Figtree';
+    font-size: 22px;
+    color: white;
+    background-color: #2e2c2c;
+  }
+  
+  #myDropdown option {
+    font-family: 'Figtree';
+    font-size: 22px;
+    color: white;
+    background-color: #2e2c2c; /* Background color for options */
+  }
+  /* Custom styles for the dropdown label */
+#dropdownLabel {
+    font-family: 'Figtree';
+    font-size: 22px;
+    color: white;
+    /* Add more styles as needed */
+  }

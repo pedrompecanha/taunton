@@ -56,70 +56,8 @@
             }
           }
 
-
-          function colorCells(cells) {
-            cells.forEach(cell => {
-                const value = parseInt(cell.textContent);
-                if (value >= 0 && value <= 5) {
-                    cell.classList.add('low-range');
-                } else if (value <= 10) {
-                    cell.classList.add('medium-range');
-                } else if (value <= 15){
-                    cell.classList.add('high-range');
-                } else {
-                    cell.classList.add('top-range');
-                }
-                cell.style.fontWeight = 'bold';
-            });
-        }
-        
-
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration.
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-          apiKey: "AIzaSyBBvtVnKeMe2u6DP_0wkRwdDc9IqFklPj4",
-          authDomain: "zealand-fm-log.firebaseapp.com",
-          projectId: "zealand-fm-log",
-          storageBucket: "zealand-fm-log.appspot.com",
-          messagingSenderId: "128791711304",
-          appId: "1:128791711304:web:a61aea1054f4b6999a527d",
-          measurementId: "G-NTQZFZGJDQ"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-    
-    
-        // Reference to the "players" collection
-        const playersCollection = collection(db, "players");
-        const playerData = [];
-        // Fetch data from Firebase
-        getDocs(playersCollection).then((querySnapshot) => {
-            
-    
-            querySnapshot.forEach((doc) => {
-                // Assume each document has a "json" field containing a JSON string
-                const jsonString = doc.data().json;
-                // Parse the JSON string into a JavaScript object
-                const jsonData = JSON.parse(jsonString);
-                for (const player of jsonData) {
-                    // Access properties of each player
-                    playerData.push(FMPlayer.fromObject(player))
-                }
-                // Push the object into the array
-            });
-            const playerNames = playerData.map(player => player.name);
-            console.log(playerNames)
+          function insertNewRow(player){
             const tableBody = document.querySelector('#playersTable tbody');
-
-        console.log(playerData.length)
-
-        playerData.forEach(player => {
-            
             const row = tableBody.insertRow();  
             const cellPosition = row.insertCell(0);
             const cellName = row.insertCell(1);
@@ -160,6 +98,7 @@
             const cellPace = row.insertCell(36);
             const cellStamina = row.insertCell(37);
             const cellStrength = row.insertCell(38);
+
             cellPosition.textContent = player.position
             cellName.textContent = player.name
             cellAge.textContent = player.age
@@ -237,8 +176,146 @@
                 cellPace,
                 cellStamina,
                 cellStrength])
+        
+          }
+
+
+          function addOption(date) {
+            const jsDate = date.toDate();
+            const formattedDate = jsDate.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const dropdown = document.getElementById('myDropdown');
+
+            // Create a new option element
+            const newOption = document.createElement('option');
             
+            // Set the value and text for the new option
+            newOption.value = jsDate.getTime();
+            newOption.textContent = formattedDate;
+
+            // Append the new option to the dropdown
+            dropdown.appendChild(newOption);
+        }
+
+        function sortDropdown() {
+            // Get the dropdown element
+            const dropdown = document.getElementById('myDropdown');
+          
+            // Get the options as an array and sort them in descending order
+            const optionsArray = Array.from(dropdown.options);
+            optionsArray.sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
+          
+            // Remove existing options from the dropdown
+            while (dropdown.options.length > 0) {
+              dropdown.options.remove(0);
+            }
+          
+            // Add the sorted options back to the dropdown
+            optionsArray.forEach(option => {
+              dropdown.add(option);
+            });
+          }
+       
+          
+
+          function colorCells(cells) {
+            cells.forEach(cell => {
+                const value = parseInt(cell.textContent);
+                if (value >= 0 && value <= 5) {
+                    cell.classList.add('low-range');
+                } else if (value <= 10) {
+                    cell.classList.add('medium-range');
+                } else if (value <= 15){
+                    cell.classList.add('high-range');
+                } else {
+                    cell.classList.add('top-range');
+                }
+                cell.style.fontWeight = 'bold';
+            });
+        }
+        
+        const dropdown = document.getElementById('myDropdown');
+
+        dropdown.addEventListener('change', function() {
+            // Reset the current table
+            const tableBody = document.querySelector('#playersTable tbody');
+            while (tableBody.hasChildNodes()) {
+                tableBody.removeChild(tableBody.firstChild);
+              }
+            // Access the selected value
+            let players = myDictionary[dropdown.value]
+
+            players.forEach(player => {
+            insertNewRow(player);
+            });
+            const text = dropdown.value;
+            console.log('Selected date:', text);
         });
+
+
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration.
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyBBvtVnKeMe2u6DP_0wkRwdDc9IqFklPj4",
+          authDomain: "zealand-fm-log.firebaseapp.com",
+          projectId: "zealand-fm-log",
+          storageBucket: "zealand-fm-log.appspot.com",
+          messagingSenderId: "128791711304",
+          appId: "1:128791711304:web:a61aea1054f4b6999a527d",
+          measurementId: "G-NTQZFZGJDQ"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        
+        // Reference to the "players" collection
+        const playersCollection = collection(db, "players");
+        const playerData = [];
+        const myDictionary = {};
+        
+        // Fetch data from Firebase
+        getDocs(playersCollection).then((querySnapshot) => {
+            
+    
+            querySnapshot.forEach((doc) => {
+                // Assume each document has a "json" field containing a JSON string
+                const jsonString = doc.data().json;
+                const entry = doc.data().date;
+                addOption(entry)
+                let dateInSeconds = entry.toDate().getTime();
+                console.log(dateInSeconds)
+                myDictionary[dateInSeconds] = []
+                // Parse the JSON string into a JavaScript object
+                const jsonData = JSON.parse(jsonString);
+                for (const player of jsonData) {
+                    // Access properties of each player
+                    myDictionary[dateInSeconds].push(FMPlayer.fromObject(player))
+                }
+                // Push the object into the array
+            });
+            const playerNames = playerData.map(player => player.name);
+            
+        console.log(playerData.length)
+        sortDropdown();
+        const selectedOption = dropdown.options[0];
+        selectedOption.selected = true;
+        let players = myDictionary[selectedOption.value]
+
+
+        players.forEach(player => {
+            insertNewRow(player);
+        });
+
+        console.log(myDictionary)
 
         }).catch((error) => {
             console.error("Error getting documents: ", error);
